@@ -3,4 +3,22 @@ name = "qatoto-blogs-backend"
 version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "fastapi[standard]>=0.124.4",
+    "pwdlib[argon2]>=0.3.0",
+    "pyjwt[crypto]>=2.10.1",
+    "python-dotenv>=1.2.1",
+]
+
+[tool.pyrefly]
+project-includes = [
+    "**/*.py*",
+    "**/*.ipynb",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.9",
+]
+
+[tool]
