@@ -41,6 +41,12 @@ class Blogs(BaseModel):
     blog: Blog
 
 
+class BlogResponse(BaseModel):
+    id: int
+    title: str
+    content: str
+
+
 async def read_blog(id: int) -> Blog:
     return Blog(
         id=id,
@@ -50,8 +56,8 @@ async def read_blog(id: int) -> Blog:
     )
 
 
-@app.get("/blog/{id}")
-async def get_blog(id: int) -> Blog:
+@app.get("/blog/{id}", response_model=BlogResponse)
+async def get_blog(id: int):
     results = await read_blog(id)
     return results
 
