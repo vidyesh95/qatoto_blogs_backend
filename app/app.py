@@ -35,7 +35,7 @@ class Blog(BaseModel):
 
 
 class Blogs(BaseModel):
-    number: int
+    id: int
     blog: Blog
 
 
@@ -47,5 +47,5 @@ def get_blogs(title: str, description: str):
     return title, description
 
 print(get_blogs("hello","world"))
-print(get_blog(Blog("hello","world","Lorem ipsum The Alola region has no gyms. You can earn the Trio Badge at Striaton "
+print(get_blog(Blog(title="hello",description="world",content="Lorem ipsum The Alola region has no gyms. You can earn the Trio Badge at Striaton "
                        "Gym. PokéManiac visited Goldenrod Department Store in Johto.")))
