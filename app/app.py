@@ -25,9 +25,16 @@ myBlogs = {
 def get_blogs(title: str, description: str):
     return title, description
 
-def get_blog(title: str, content: str):
-    return title, content
+class Blog:
+    def __init__(self, title: str, description: str, content: str):
+        self.title = title
+        self.description = description
+        self.content = content
+
+
+def get_blog(blog: Blog):
+    return blog.title, blog.content
 
 print(get_blogs("hello","world"))
-print(get_blog("hello","Lorem ipsum The Alola region has no gyms. You can earn the Trio Badge at Striaton "
-                       "Gym. PokéManiac visited Goldenrod Department Store in Johto."))
+print(get_blog(Blog("hello","world","Lorem ipsum The Alola region has no gyms. You can earn the Trio Badge at Striaton "
+                       "Gym. PokéManiac visited Goldenrod Department Store in Johto.")))
