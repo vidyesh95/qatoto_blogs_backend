@@ -41,7 +41,7 @@ class Blogs(BaseModel):
     blog: Blog
 
 
-def read_blog(id: int) -> Blog:
+async def read_blog(id: int) -> Blog:
     return Blog(
         id=id,
         title=db[id]["title"],
@@ -52,7 +52,7 @@ def read_blog(id: int) -> Blog:
 
 @app.get("/blog/{id}")
 async def get_blog(id: int) -> Blog:
-    results = read_blog(id)
+    results = await read_blog(id)
     return results
 
 
