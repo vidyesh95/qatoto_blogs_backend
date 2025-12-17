@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 myBlogs = {
     "1" : {
@@ -27,18 +28,15 @@ myBlogs = {
 app = FastAPI()
 
 
-class Blog:
-    def __init__(self, title: str, description: str, content: str):
-        self.title = title
-        self.description = description
-        self.content = content
+class Blog(BaseModel):
+    title: str
+    description: str
+    content: str
 
 
-class Blogs:
-    def __init__(self, number: int, blog: Blog):
-        self.number = number
-        self.blog = blog
-
+class Blogs(BaseModel):
+    number: int
+    blog: Blog
 
 
 def get_blog(blog: Blog):
