@@ -62,6 +62,6 @@ async def get_blog(id: Annotated[int, "Enter the blog id to read the blog"]):
     return results
 
 
-@app.get("/blogs")
+@app.get("/")
 def get_blogs(id: int, title: str, description: str):
     return title, description
