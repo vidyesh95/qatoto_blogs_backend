@@ -62,13 +62,25 @@ async def read_blog(id: int) -> Blog:
     )
 
 
+async def read_blogs() -> list[Blog]:
+    return [
+        Blog(
+            id=id,
+            title=blog["title"],
+            description=blog["description"],
+            content=blog["content"]
+        ) 
+        for id, blog in db.items()
+    ]
+
+
 @app.get("/blog/{id}", response_model=BlogResponse)
 async def get_blog(id: Annotated[int, "Enter the blog id to read the blog"]):
     result = await read_blog(id)
     return result
 
 
-@app.get("/", response_model=BlogsResponse)
+@app.get("/", response_model=list[BlogsResponse])
 async def get_blogs():
-    result = await read_blog(id=1)
-    return result
+    results = await read_blogs()
+    return results
