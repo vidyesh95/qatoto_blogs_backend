@@ -57,7 +57,7 @@ async def read_blog(id: int) -> Blog:
 
 
 @app.get("/blog/{id}", response_model=BlogResponse)
-async def get_blog(id: int):
+async def get_blog(id: Annotated[int, "Enter the blog id to read the blog"]):
     results = await read_blog(id)
     return results
 
