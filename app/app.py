@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -39,7 +41,7 @@ class Blogs(BaseModel):
     blog: Blog
 
 
-def get_blog(blog: Blog):
+def get_blog(blog: Annotated[Blog, "Read individual Blog"]) -> tuple[str, str]:
     return blog.title, blog.content
 
 
