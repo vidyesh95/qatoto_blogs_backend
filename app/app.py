@@ -1,3 +1,5 @@
+from fastapi import FastAPI
+
 myBlogs = {
     "1" : {
         "title": "hello",
@@ -22,8 +24,8 @@ myBlogs = {
 }
 
 
-def get_blogs(title: str, description: str):
-    return title, description
+app = FastAPI()
+
 
 class Blog:
     def __init__(self, title: str, description: str, content: str):
@@ -32,8 +34,19 @@ class Blog:
         self.content = content
 
 
+class Blogs:
+    def __init__(self, number: int, blog: Blog):
+        self.number = number
+        self.blog = blog
+
+
+
 def get_blog(blog: Blog):
     return blog.title, blog.content
+
+
+def get_blogs(title: str, description: str):
+    return title, description
 
 print(get_blogs("hello","world"))
 print(get_blog(Blog("hello","world","Lorem ipsum The Alola region has no gyms. You can earn the Trio Badge at Striaton "
