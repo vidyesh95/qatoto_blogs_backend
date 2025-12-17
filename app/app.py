@@ -65,8 +65,3 @@ async def get_blog(id: Annotated[int, "Enter the blog id to read the blog"]):
 @app.get("/blogs")
 def get_blogs(id: int, title: str, description: str):
     return title, description
-
-
-# print(get_blog(Blog(id=1, title="hello",description="world",content="Lorem ipsum The Alola region has no gyms. You can earn the Trio Badge at Striaton "
-#                        "Gym. PokéManiac visited Goldenrod Department Store in Johto.")))
-# print(get_blogs)
