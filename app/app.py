@@ -137,8 +137,21 @@ async def get_blog(blog_id: Annotated[int, "Enter the blog id to read the blog"]
     return result
 
 
-@app.get("/", response_model=list[BlogsResponse], tags=[Tags.blogs])
+@app.get(
+    "/",
+    response_model=list[BlogsResponse],
+    tags=[Tags.blogs],
+    summary="Read all blogs",
+    description="Read all blogs",
+    response_description="List of all blogs"
+)
 async def get_blogs():
+    """
+    Read all blogs
+
+    Returns:
+        list[BlogsResponse]: List of all blogs
+    """
     results = await read_blogs()
     return results
 
