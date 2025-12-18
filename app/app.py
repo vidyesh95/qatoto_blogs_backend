@@ -98,7 +98,7 @@ async def read_blogs() -> list[Blog]:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="No blogs found",
         )
-        
+
     return [
         Blog(
             blog_id=blog["blog_id"],
@@ -122,21 +122,21 @@ async def get_blogs():
     return results
 
 
-@app.post("/create-blog")
+@app.post("/create-blog", status_code=status.HTTP_201_CREATED)
 async def create_blog(blog: Blog) -> Blog:
     return blog
 
 
-@app.put("/update-blog/{blog_id}")
+@app.put("/update-blog/{blog_id}", status_code=status.HTTP_200_OK)
 async def update_blog(blog_id: int, blog: Blog):
     return {"blog_id": blog_id, "blog": blog}
 
 
-@app.patch("/partial-update-blog/{blog_id}")
+@app.patch("/partial-update-blog/{blog_id}", status_code=status.HTTP_200_OK)
 async def partial_update_blog(blog_id: int, blog: Blog):
     return {"blog_id": blog_id, "blog": blog}
 
 
-@app.delete("/delete-blog/{blog_id}")
+@app.delete("/delete-blog/{blog_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_blog(blog_id: int):
     return status.HTTP_204_NO_CONTENT
