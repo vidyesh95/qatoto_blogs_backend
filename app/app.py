@@ -4,14 +4,14 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 
-class BlogEntry(TypedDict):
+class BlogTable(TypedDict):
     blog_id: int
     title: str
     description: str
     content: str
 
 
-db: list[BlogEntry] = [
+db: list[BlogTable] = [
     {
         "blog_id": 1,
         "title": "hello",
