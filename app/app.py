@@ -64,11 +64,25 @@ class BlogsResponse(BaseModel):
     description: str
 
 
+async def find_blog_by_id(target_blog_id: int) -> BlogTable | None:
+    """
+    Search through the database list and return the blog that matches the target_blog_id.
+    Returns None if no matching blog is found.
+    """
+    for blog_entry in db:
+        if blog_entry["blog_id"] == target_blog_id:
+            return blog_entry
+    return None
+
+
 async def read_blog(blog_id: int) -> Blog:
     # Find the blog with matching blog_id
-    blog = next((b for b in db if b["blog_id"] == blog_id), None)
+    blog = await find_blog_by_id(blog_id)
     if blog is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with id {blog_id} not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Blog with id {blog_id} not found",
+        )
     return Blog(
         blog_id=blog["blog_id"],
         title=blog["title"],
