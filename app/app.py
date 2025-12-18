@@ -123,7 +123,7 @@ async def get_blogs():
 
 
 @app.post("/create-blog")
-async def create_blog(blog: Blog):
+async def create_blog(blog: Blog) -> Blog:
     return blog
 
 
