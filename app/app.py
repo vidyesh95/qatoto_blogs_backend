@@ -74,7 +74,7 @@ async def read_blogs() -> list[Blog]:
     ]
 
 
-@app.get("/blog/{id}", response_model=BlogResponse)
+@app.get("/blog/{blog_id}", response_model=BlogResponse)
 async def get_blog(blog_id: Annotated[int, "Enter the blog id to read the blog"]):
     result = await read_blog(blog_id)
     return result
@@ -86,11 +86,11 @@ async def get_blogs():
     return results
 
 
-@app.post("/create-blog", response_model=Blog)
-async def create_blog(blog: Blog):
-    return BlogResponse(
-        blog_id=len(db) + 1,
-        title=blog.title,
-        description=blog.description,
-        content=blog.content,
-    )
+# @app.post("/create-blog", response_model=Blog)
+# async def create_blog(blog: Blog):
+#     return BlogResponse(
+#         blog_id=len(db) + 1,
+#         title=blog.title,
+#         description=blog.description,
+#         content=blog.content,
+#     )
