@@ -1,30 +1,41 @@
-from typing import Annotated
+from typing import Annotated, TypedDict
 
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-db = {
-    1: {
+
+class BlogEntry(TypedDict):
+    blog_id: int
+    title: str
+    description: str
+    content: str
+
+
+db: list[BlogEntry] = [
+    {
+        "blog_id": 1,
         "title": "hello",
         "description": "world",
         "content": "Lorem ipsum The Alola region has no gyms. You can earn the Trio Badge at Striaton Gym. PokéManiac "
         "visited Goldenrod Department Store in Johto.",
     },
-    2: {
+    {
+        "blog_id": 2,
         "title": "hello",
         "description": "world",
         "content": "Lorem ipsum Machop is a Superpower Pokémon. Commander spotted Kangaskhan in Unova. The leader at "
         "Shalour Gym specializes in Fighting Pokémon. You can find the Eterna Gym in Sinnoh. You can earn "
         "the Basic Badge at Nacrene Gym.",
     },
-    3: {
+    {
+        "blog_id": 3,
         "title": "hello",
         "description": "world",
         "content": "Lorem ipsum Socialite used a Net Ball to catch Victreebel. Tauros used Tail Whip. Voltorb is a "
         "Ball Pokémon. You can find the Dewford Gym in Hoenn. Haunter used Dream Eater. You can find the "
         "Fuchsia Gym in Kanto.",
     },
-}
+]
 
 
 app = FastAPI()
@@ -65,12 +76,12 @@ async def read_blog(blog_id: int) -> Blog:
 async def read_blogs() -> list[Blog]:
     return [
         Blog(
-            blog_id=blog_id,
+            blog_id=blog["blog_id"],
             title=blog["title"],
             description=blog["description"],
-            content=blog["content"]
-        ) 
-        for blog_id, blog in db.items()
+            content=blog["content"],
+        )
+        for blog in db
     ]
 
 
