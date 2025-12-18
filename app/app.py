@@ -83,6 +83,7 @@ async def read_blog(blog_id: int) -> Blog:
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Blog with id {blog_id} not found",
         )
+
     return Blog(
         blog_id=blog["blog_id"],
         title=blog["title"],
@@ -92,6 +93,12 @@ async def read_blog(blog_id: int) -> Blog:
 
 
 async def read_blogs() -> list[Blog]:
+    if not db:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No blogs found",
+        )
+        
     return [
         Blog(
             blog_id=blog["blog_id"],
