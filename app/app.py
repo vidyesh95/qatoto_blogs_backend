@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Annotated, TypedDict
 
 from fastapi import FastAPI, HTTPException, status
@@ -110,33 +111,52 @@ async def read_blogs() -> list[Blog]:
     ]
 
 
-@app.get("/blog/{blog_id}", response_model=BlogResponse)
+class Tags(Enum):
+    blogs = "blogs"
+    auth = "auth"
+
+
+@app.get(
+    "/blog/{blog_id}",
+    response_model=BlogResponse,
+    tags=[Tags.blogs], summary="Read a blog",
+    description="Read a blog by id"
+)
 async def get_blog(blog_id: Annotated[int, "Enter the blog id to read the blog"]):
+    """
+    Read a blog by id
+
+    Args:
+        blog_id (int): The id of the blog to read
+
+    Returns:
+        Blog: The blog with the given id
+    """
     result = await read_blog(blog_id)
     return result
 
 
-@app.get("/", response_model=list[BlogsResponse])
+@app.get("/", response_model=list[BlogsResponse], tags=[Tags.blogs])
 async def get_blogs():
     results = await read_blogs()
     return results
 
 
-@app.post("/create-blog", status_code=status.HTTP_201_CREATED)
+@app.post("/create-blog", status_code=status.HTTP_201_CREATED, tags=[Tags.blogs])
 async def create_blog(blog: Blog) -> Blog:
     return blog
 
 
-@app.put("/update-blog/{blog_id}", status_code=status.HTTP_200_OK)
+@app.put("/update-blog/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs])
 async def update_blog(blog_id: int, blog: Blog):
     return {"blog_id": blog_id, "blog": blog}
 
 
-@app.patch("/partial-update-blog/{blog_id}", status_code=status.HTTP_200_OK)
+@app.patch("/partial-update-blog/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs])
 async def partial_update_blog(blog_id: int, blog: Blog):
     return {"blog_id": blog_id, "blog": blog}
 
 
-@app.delete("/delete-blog/{blog_id}", status_code=status.HTTP_204_NO_CONTENT)
+@app.delete("/delete-blog/{blog_id}", status_code=status.HTTP_204_NO_CONTENT, tags=[Tags.blogs])
 async def delete_blog(blog_id: int):
     return status.HTTP_204_NO_CONTENT
