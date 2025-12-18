@@ -21,16 +21,16 @@ db: list[BlogTable] = [
     },
     {
         "blog_id": 2,
-        "title": "hello",
-        "description": "world",
+        "title": "hello2",
+        "description": "world2",
         "content": "Lorem ipsum Machop is a Superpower Pokémon. Commander spotted Kangaskhan in Unova. The leader at "
         "Shalour Gym specializes in Fighting Pokémon. You can find the Eterna Gym in Sinnoh. You can earn "
         "the Basic Badge at Nacrene Gym.",
     },
     {
         "blog_id": 3,
-        "title": "hello",
-        "description": "world",
+        "title": "hello3",
+        "description": "world3",
         "content": "Lorem ipsum Socialite used a Net Ball to catch Victreebel. Tauros used Tail Whip. Voltorb is a "
         "Ball Pokémon. You can find the Dewford Gym in Hoenn. Haunter used Dream Eater. You can find the "
         "Fuchsia Gym in Kanto.",
@@ -122,11 +122,17 @@ async def get_blogs():
     return results
 
 
-# @app.post("/create-blog", response_model=Blog)
-# async def create_blog(blog: Blog):
-#     return BlogResponse(
-#         blog_id=len(db) + 1,
-#         title=blog.title,
-#         description=blog.description,
-#         content=blog.content,
-#     )
+@app.post("/create-blog")
+async def create_blog(blog: Blog):
+    return blog
+
+
+@app.put("/update-blog/{blog_id}")
+async def update_blog(blog_id: int, blog: Blog):
+    return {"blog_id": blog_id, "blog": blog}
+
+
+@app.delete("/delete-blog/{blog_id}")
+async def delete_blog(blog_id: int):
+    return status.HTTP_204_NO_CONTENT
+
