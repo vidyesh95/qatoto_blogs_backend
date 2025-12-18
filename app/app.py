@@ -31,7 +31,7 @@ app = FastAPI()
 
 
 class Blog(BaseModel):
-    id: int
+    blog_id: int
     title: str
     description: str
     content: str
@@ -53,30 +53,30 @@ class BlogsResponse(BaseModel):
     description: str
 
 
-async def read_blog(id: int) -> Blog:
+async def read_blog(blog_id: int) -> Blog:
     return Blog(
-        id=id,
-        title=db[id]["title"],
-        description=db[id]["description"],
-        content=db[id]["content"],
+        blog_id=blog_id,
+        title=db[blog_id]["title"],
+        description=db[blog_id]["description"],
+        content=db[blog_id]["content"],
     )
 
 
 async def read_blogs() -> list[Blog]:
     return [
         Blog(
-            id=id,
+            blog_id=blog_id,
             title=blog["title"],
             description=blog["description"],
             content=blog["content"]
         ) 
-        for id, blog in db.items()
+        for blog_id, blog in db.items()
     ]
 
 
 @app.get("/blog/{id}", response_model=BlogResponse)
-async def get_blog(id: Annotated[int, "Enter the blog id to read the blog"]):
-    result = await read_blog(id)
+async def get_blog(blog_id: Annotated[int, "Enter the blog id to read the blog"]):
+    result = await read_blog(blog_id)
     return result
 
 
