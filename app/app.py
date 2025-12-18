@@ -120,7 +120,8 @@ class Tags(Enum):
     "/blog/{blog_id}",
     response_model=BlogResponse,
     tags=[Tags.blogs], summary="Read a blog",
-    description="Read a blog by id"
+    description="Read a blog by id",
+    response_description="The blog with the given id"
 )
 async def get_blog(blog_id: Annotated[int, "Enter the blog id to read the blog"]):
     """
