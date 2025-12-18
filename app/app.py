@@ -140,4 +140,3 @@ async def partial_update_blog(blog_id: int, blog: Blog):
 @app.delete("/delete-blog/{blog_id}")
 async def delete_blog(blog_id: int):
     return status.HTTP_204_NO_CONTENT
-
