@@ -42,13 +42,13 @@ class Blogs(BaseModel):
 
 
 class BlogResponse(BaseModel):
-    id: int
+    blog_id: int
     title: str
     content: str
 
 
 class BlogsResponse(BaseModel):
-    id: int
+    blog_id: int
     title: str
     description: str
 
@@ -84,3 +84,13 @@ async def get_blog(blog_id: Annotated[int, "Enter the blog id to read the blog"]
 async def get_blogs():
     results = await read_blogs()
     return results
+
+
+@app.post("/create-blog", response_model=Blog)
+async def create_blog(blog: Blog):
+    return BlogResponse(
+        blog_id=len(db) + 1,
+        title=blog.title,
+        description=blog.description,
+        content=blog.content,
+    )
