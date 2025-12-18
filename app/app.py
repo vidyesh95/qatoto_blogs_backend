@@ -29,7 +29,7 @@ class BlogsResponse(BaseModel):
     title: str
     description: str
 
-    
+
 class BlogTable(TypedDict):
     blog_id: int
     title: str
@@ -129,6 +129,11 @@ async def create_blog(blog: Blog):
 
 @app.put("/update-blog/{blog_id}")
 async def update_blog(blog_id: int, blog: Blog):
+    return {"blog_id": blog_id, "blog": blog}
+
+
+@app.patch("/partial-update-blog/{blog_id}")
+async def partial_update_blog(blog_id: int, blog: Blog):
     return {"blog_id": blog_id, "blog": blog}
 
 
