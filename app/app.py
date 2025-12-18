@@ -1,6 +1,6 @@
 from typing import Annotated, TypedDict
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 
 
@@ -65,11 +65,15 @@ class BlogsResponse(BaseModel):
 
 
 async def read_blog(blog_id: int) -> Blog:
+    # Find the blog with matching blog_id
+    blog = next((b for b in db if b["blog_id"] == blog_id), None)
+    if blog is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with id {blog_id} not found")
     return Blog(
-        blog_id=blog_id,
-        title=db[blog_id]["title"],
-        description=db[blog_id]["description"],
-        content=db[blog_id]["content"],
+        blog_id=blog["blog_id"],
+        title=blog["title"],
+        description=blog["description"],
+        content=blog["content"],
     )
 
 
