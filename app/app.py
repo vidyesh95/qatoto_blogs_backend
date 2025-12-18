@@ -25,6 +25,12 @@ class Blog(BaseModel):
     content: str
 
 
+class BlogCreate(BaseModel):
+    title: str
+    description: str
+    content: str
+
+
 class Blogs(BaseModel):
     blog: Blog
 
@@ -167,17 +173,43 @@ async def get_blogs():
     return results
 
 
+async def add_blog_to_db(blog: BlogCreate) -> Blog:
+    """
+    Create a new blog entry and add it to the database.
+    Auto-generates a unique blog_id.
+
+    Args:
+        blog: The blog data to create (title, description, content)
+
+    Returns:
+        Blog: The created blog with its assigned blog_id
+    """
+    # Auto-generate a unique blog_id
+    existing_blog_ids = [blog_entry["blog_id"] for blog_entry in db]
+    highest_existing_id = max(existing_blog_ids) if existing_blog_ids else 0
+    new_blog_id = highest_existing_id + 1
+    new_blog: BlogTable = {
+        "blog_id": new_blog_id,
+        "title": blog.title,
+        "description": blog.description,
+        "content": blog.content,
+    }
+    db.append(new_blog)
+    return Blog(**new_blog)
+
+
 @app.post("/create-blog", status_code=status.HTTP_201_CREATED, tags=[Tags.blogs])
-async def create_blog(blog: Blog) -> Blog:
-    db.append(
-        {
-            "blog_id": blog.blog_id,
-            "title": blog.title,
-            "description": blog.description,
-            "content": blog.content,
-        }
-    )
-    return blog
+async def create_blog(blog: BlogCreate) -> Blog:
+    """
+    Create a new blog
+
+    Args:
+        blog (BlogCreate): The blog data to create
+
+    Returns:
+        Blog: The created blog
+    """
+    return await add_blog_to_db(blog)
 
 
 @app.put("/update-blog/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs])
