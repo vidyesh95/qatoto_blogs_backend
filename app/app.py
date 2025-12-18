@@ -129,9 +129,10 @@ class Tags(Enum):
 @app.get(
     "/blog/{blog_id}",
     response_model=BlogResponse,
-    tags=[Tags.blogs], summary="Read a blog",
+    tags=[Tags.blogs],
+    summary="Read a blog",
     description="Read a blog by id",
-    response_description="The blog with the given id"
+    response_description="The blog with the given id",
 )
 async def get_blog(blog_id: Annotated[int, "Enter the blog id to read the blog"]):
     """
@@ -153,7 +154,7 @@ async def get_blog(blog_id: Annotated[int, "Enter the blog id to read the blog"]
     tags=[Tags.blogs],
     summary="Read all blogs",
     description="Read all blogs",
-    response_description="List of all blogs"
+    response_description="List of all blogs",
 )
 async def get_blogs():
     """
@@ -168,6 +169,14 @@ async def get_blogs():
 
 @app.post("/create-blog", status_code=status.HTTP_201_CREATED, tags=[Tags.blogs])
 async def create_blog(blog: Blog) -> Blog:
+    db.append(
+        {
+            "blog_id": blog.blog_id,
+            "title": blog.title,
+            "description": blog.description,
+            "content": blog.content,
+        }
+    )
     return blog
 
 
@@ -176,11 +185,15 @@ async def update_blog(blog_id: int, blog: Blog):
     return {"blog_id": blog_id, "blog": blog}
 
 
-@app.patch("/partial-update-blog/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs])
+@app.patch(
+    "/partial-update-blog/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
+)
 async def partial_update_blog(blog_id: int, blog: Blog):
     return {"blog_id": blog_id, "blog": blog}
 
 
-@app.delete("/delete-blog/{blog_id}", status_code=status.HTTP_204_NO_CONTENT, tags=[Tags.blogs])
+@app.delete(
+    "/delete-blog/{blog_id}", status_code=status.HTTP_204_NO_CONTENT, tags=[Tags.blogs]
+)
 async def delete_blog(blog_id: int):
     return status.HTTP_204_NO_CONTENT
