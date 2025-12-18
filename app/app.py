@@ -4,6 +4,32 @@ from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 
 
+app = FastAPI()
+
+
+class Blog(BaseModel):
+    blog_id: int
+    title: str
+    description: str
+    content: str
+
+
+class Blogs(BaseModel):
+    blog: Blog
+
+
+class BlogResponse(BaseModel):
+    blog_id: int
+    title: str
+    content: str
+
+
+class BlogsResponse(BaseModel):
+    blog_id: int
+    title: str
+    description: str
+
+    
 class BlogTable(TypedDict):
     blog_id: int
     title: str
@@ -36,32 +62,6 @@ db: list[BlogTable] = [
         "Fuchsia Gym in Kanto.",
     },
 ]
-
-
-app = FastAPI()
-
-
-class Blog(BaseModel):
-    blog_id: int
-    title: str
-    description: str
-    content: str
-
-
-class Blogs(BaseModel):
-    blog: Blog
-
-
-class BlogResponse(BaseModel):
-    blog_id: int
-    title: str
-    content: str
-
-
-class BlogsResponse(BaseModel):
-    blog_id: int
-    title: str
-    description: str
 
 
 async def find_blog_by_id(target_blog_id: int) -> BlogTable | None:
