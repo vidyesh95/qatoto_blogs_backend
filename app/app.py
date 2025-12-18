@@ -4,8 +4,18 @@ from typing import Annotated, TypedDict
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 
+description = """
+Qatoto Blogs API
 
-app = FastAPI()
+Qatoto Blogs is a simple API for managing blogs.
+"""
+
+app = FastAPI(
+    title="Qatoto Blogs",
+    description=description,
+    summary="Qatoto Blogs API",
+    version="0.0.1",
+)
 
 
 class Blog(BaseModel):
