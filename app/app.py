@@ -4,7 +4,7 @@ from typing import Annotated, TypedDict
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 
-description = """
+project_description = """
 Qatoto Blogs API
 
 Qatoto Blogs is a simple API for managing blogs.
@@ -12,7 +12,7 @@ Qatoto Blogs is a simple API for managing blogs.
 
 app = FastAPI(
     title="Qatoto Blogs",
-    description=description,
+    description=project_description,
     summary="Qatoto Blogs API",
     version="0.0.1",
 )
@@ -259,32 +259,68 @@ async def update_blog(blog_id: int, blog: BlogCreate) -> Blog:
     return await update_blog_in_db(blog_id, blog)
 
 
-@app.patch(
-    "/update-blog-id/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
-)
-async def update_blog_id(blog_id: int, blog: Blog):
-    return {"blog_id": blog_id, "blog": blog}
+async def partial_update_blog_in_db(
+    blog_id: int, title: str | None, description: str | None, content: str | None
+) -> Blog:
+    """
+    Partially update a blog entry - only updates the fields that are provided.
+
+    Args:
+        blog_id: The ID of the blog to update
+        title: New title (optional)
+        description: New description (optional)
+        content: New content (optional)
+
+    Returns:
+        Blog: The updated blog
+
+    Raises:
+        HTTPException: If blog with given ID is not found
+    """
+    for index, blog_entry in enumerate(db):
+        if blog_entry["blog_id"] == blog_id:
+            # Only update fields that were provided (not None)
+            updated_blog: BlogTable = {
+                "blog_id": blog_id,
+                "title": title if title is not None else blog_entry["title"],
+                "description": description if description is not None else blog_entry["description"],
+                "content": content if content is not None else blog_entry["content"],
+            }
+            db[index] = updated_blog
+            return Blog(**updated_blog)
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Blog with id {blog_id} not found",
+    )
 
 
-@app.patch(
-    "/update-blog-title/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
-)
-async def update_blog_title(blog_id: int, blog: Blog):
-    return {"blog_id": blog_id, "blog": blog}
+@app.patch("/update-blog/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs])
+async def partial_update_blog(
+    blog_id: int,
+    title: str | None = None,
+    description: str | None = None,
+    content: str | None = None,
+) -> Blog:
+    """
+    Partially update a blog - only updates the fields you provide.
 
+    Args:
+        blog_id: The ID of the blog to update
+        title: New title (optional)
+        description: New description (optional)
+        content: New content (optional)
 
-@app.patch(
-    "/update-blog-description/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
-)
-async def update_blog_description(blog_id: int, blog: Blog):
-    return {"blog_id": blog_id, "blog": blog}
-
-
-@app.patch(
-    "/update-blog-content/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
-)
-async def update_blog_content(blog_id: int, blog: Blog):
-    return {"blog_id": blog_id, "blog": blog}
+    Returns:
+        Blog: The updated blog
+    """
+    # Check if at least one field is provided
+    if title is None and description is None and content is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="At least one field (title, description, or content) must be provided",
+        )
+    return await partial_update_blog_in_db(blog_id, title, description, content)
 
 
 @app.delete(
