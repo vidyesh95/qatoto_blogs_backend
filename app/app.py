@@ -212,9 +212,51 @@ async def create_blog(blog: BlogCreate) -> Blog:
     return await add_blog_to_db(blog)
 
 
+async def update_blog_in_db(blog_id: int, blog: BlogCreate) -> Blog:
+    """
+    Update an existing blog entry in the database.
+    Replaces all fields except blog_id.
+
+    Args:
+        blog_id: The ID of the blog to update
+        blog: The new blog data
+
+    Returns:
+        Blog: The updated blog
+
+    Raises:
+        HTTPException: If blog with given ID is not found
+    """
+    for index, blog_entry in enumerate(db):
+        if blog_entry["blog_id"] == blog_id:
+            updated_blog: BlogTable = {
+                "blog_id": blog_id,
+                "title": blog.title,
+                "description": blog.description,
+                "content": blog.content,
+            }
+            db[index] = updated_blog
+            return Blog(**updated_blog)
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Blog with id {blog_id} not found",
+    )
+
+
 @app.put("/update-blog/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs])
-async def update_blog(blog_id: int, blog: Blog):
-    return {"blog_id": blog_id, "blog": blog}
+async def update_blog(blog_id: int, blog: BlogCreate) -> Blog:
+    """
+    Update a blog by replacing all its fields.
+
+    Args:
+        blog_id: The ID of the blog to update
+        blog: The new blog data (title, description, content)
+
+    Returns:
+        Blog: The updated blog
+    """
+    return await update_blog_in_db(blog_id, blog)
 
 
 @app.patch(
