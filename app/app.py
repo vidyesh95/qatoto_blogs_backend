@@ -283,7 +283,9 @@ async def partial_update_blog_in_db(
             updated_blog: BlogTable = {
                 "blog_id": blog_id,
                 "title": title if title is not None else blog_entry["title"],
-                "description": description if description is not None else blog_entry["description"],
+                "description": description
+                if description is not None
+                else blog_entry["description"],
                 "content": content if content is not None else blog_entry["content"],
             }
             db[index] = updated_blog
@@ -323,8 +325,35 @@ async def partial_update_blog(
     return await partial_update_blog_in_db(blog_id, title, description, content)
 
 
+async def delete_blog_from_db(blog_id: int) -> None:
+    """
+    Delete a blog entry from the database.
+
+    Args:
+        blog_id: The ID of the blog to delete
+
+    Raises:
+        HTTPException: If blog with given ID is not found
+    """
+    for index, blog_entry in enumerate(db):
+        if blog_entry["blog_id"] == blog_id:
+            db.pop(index)
+            return
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Blog with id {blog_id} not found",
+    )
+
+
 @app.delete(
     "/delete-blog/{blog_id}", status_code=status.HTTP_204_NO_CONTENT, tags=[Tags.blogs]
 )
-async def delete_blog(blog_id: int):
-    return status.HTTP_204_NO_CONTENT
+async def delete_blog(blog_id: int) -> None:
+    """
+    Delete a blog by id.
+
+    Args:
+        blog_id: The ID of the blog to delete
+    """
+    await delete_blog_from_db(blog_id)
