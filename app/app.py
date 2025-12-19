@@ -260,9 +260,30 @@ async def update_blog(blog_id: int, blog: BlogCreate) -> Blog:
 
 
 @app.patch(
-    "/partial-update-blog/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
+    "/update-blog-id/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
 )
-async def partial_update_blog(blog_id: int, blog: Blog):
+async def update_blog_id(blog_id: int, blog: Blog):
+    return {"blog_id": blog_id, "blog": blog}
+
+
+@app.patch(
+    "/update-blog-title/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
+)
+async def update_blog_title(blog_id: int, blog: Blog):
+    return {"blog_id": blog_id, "blog": blog}
+
+
+@app.patch(
+    "/update-blog-description/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
+)
+async def update_blog_description(blog_id: int, blog: Blog):
+    return {"blog_id": blog_id, "blog": blog}
+
+
+@app.patch(
+    "/update-blog-content/{blog_id}", status_code=status.HTTP_200_OK, tags=[Tags.blogs]
+)
+async def update_blog_content(blog_id: int, blog: Blog):
     return {"blog_id": blog_id, "blog": blog}
 
 
