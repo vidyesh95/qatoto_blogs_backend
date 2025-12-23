@@ -1,3 +1,6 @@
+"""
+This file mainly contains routes.
+"""
 from enum import Enum
 from typing import Annotated, TypedDict
 
