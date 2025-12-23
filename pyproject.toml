@@ -6,7 +6,7 @@ requires-python = ">=3.14"
 dependencies = [
     "aiosqlite>=0.22.0",
     "asyncpg>=0.31.0",
-    "fastapi[standard]>=0.124.4",
+    "fastapi[standard]>=0.127.0",
     "pwdlib[argon2]>=0.3.0",
     "pyjwt[crypto]>=2.10.1",
     "python-dotenv>=1.2.1",
@@ -21,7 +21,7 @@ project-includes = [
 
 [dependency-groups]
 dev = [
-    "ruff>=0.14.9",
+    "ruff>=0.14.10",
 ]
 
 [tool]
