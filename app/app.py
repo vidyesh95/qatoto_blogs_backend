@@ -8,6 +8,7 @@ from typing import Annotated
 from fastapi import FastAPI, HTTPException, status
 
 from app.schemas import Blog, BlogCreate, BlogResponse, BlogsResponse, BlogTable
+from sqlalchemy import create_engine
 
 project_description = """
 Qatoto Blogs API
