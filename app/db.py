@@ -36,6 +36,22 @@ async_engine = create_async_engine(DATABASE_URL, echo=True)
 async_session = async_sessionmaker(async_engine, expire_on_commit=False)
 
 async def get_async_db_session() -> AsyncGenerator[AsyncSession, None]:
+    """
+    Get an async database session
+
+    To be used for dependency injection
+    """
     async with async_session() as session:
         yield session
+
+
+async def init_models() -> None:
+    """
+    Create tables in the database if they don't exist
+
+    In a real-life example we would use Alembic to manage database migrations
+    """
+    async with async_engine.begin() as conn:
+        # await conn.run_sync(Base.metadata.drop_all) # noqa: ERA001
+        await conn.run_sync(Base.metadata.create_all)
 
