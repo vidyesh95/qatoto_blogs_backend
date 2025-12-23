@@ -4,11 +4,13 @@ This file mainly contains routes.
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from enum import Enum
-from typing import Annotated, Any
+from typing import Annotated, Any, Sequence
 
 from fastapi import FastAPI, HTTPException, status
+from fastapi.params import Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db import init_models
+from app.db import get_async_db_session, init_models
 from app.schemas import Blog, BlogCreate, BlogResponse, BlogsResponse, BlogTable
 
 project_description = """
@@ -140,7 +142,7 @@ async def get_blog(blog_id: Annotated[int, "Enter the blog id to read the blog"]
     description="Read all blogs",
     response_description="List of all blogs",
 )
-async def get_blogs():
+async def get_blogs(session: Annotated[AsyncSession, Depends(get_async_db_session)]) -> Sequence[Blog]:
     """
     Read all blogs
 
