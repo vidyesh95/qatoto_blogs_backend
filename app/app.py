@@ -1,9 +1,10 @@
 """
 This file mainly contains routes.
 """
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from enum import Enum
-from typing import Annotated, AsyncGenerator, Any
+from typing import Annotated, Any
 
 from fastapi import FastAPI, HTTPException, status
 
