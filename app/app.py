@@ -8,6 +8,7 @@ from typing import Annotated, Any, Sequence
 
 from fastapi import FastAPI, HTTPException, status
 from fastapi.params import Depends
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import get_async_db_session, init_models
@@ -149,8 +150,9 @@ async def get_blogs(session: Annotated[AsyncSession, Depends(get_async_db_sessio
     Returns:
         list[BlogsResponse]: List of all blogs
     """
-    results = await read_blogs()
-    return results
+    # results = await read_blogs()
+    results = await session.execute(select(Blog))
+    return results.scalars().all()
 
 
 async def add_blog_to_db(blog: BlogCreate) -> Blog:
