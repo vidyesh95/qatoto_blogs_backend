@@ -1,11 +1,13 @@
 """
 This file mainly contains routes.
 """
+
 from enum import Enum
-from typing import Annotated, TypedDict
+from typing import Annotated
 
 from fastapi import FastAPI, HTTPException, status
-from pydantic import BaseModel
+
+from app.schemas import Blog, BlogCreate, BlogResponse, BlogsResponse, BlogTable
 
 project_description = """
 Qatoto Blogs API
@@ -19,42 +21,6 @@ app = FastAPI(
     summary="Qatoto Blogs API",
     version="0.0.1",
 )
-
-
-class Blog(BaseModel):
-    blog_id: int
-    title: str
-    description: str
-    content: str
-
-
-class BlogCreate(BaseModel):
-    title: str
-    description: str
-    content: str
-
-
-class Blogs(BaseModel):
-    blog: Blog
-
-
-class BlogResponse(BaseModel):
-    blog_id: int
-    title: str
-    content: str
-
-
-class BlogsResponse(BaseModel):
-    blog_id: int
-    title: str
-    description: str
-
-
-class BlogTable(TypedDict):
-    blog_id: int
-    title: str
-    description: str
-    content: str
 
 
 db: list[BlogTable] = [
