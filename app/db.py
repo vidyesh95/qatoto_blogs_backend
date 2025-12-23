@@ -1,7 +1,7 @@
 """
 This file contains the database connection and functions
 """
-from typing import AsyncGenerator
+from typing import Any, AsyncGenerator
 
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
@@ -35,13 +35,13 @@ async_engine = create_async_engine(DATABASE_URL, echo=True)
 
 async_session = async_sessionmaker(async_engine, expire_on_commit=False)
 
-async def get_async_db_session() -> AsyncGenerator[AsyncSession, None]:
+async def get_async_db_session() -> AsyncGenerator[AsyncSession, Any]:
     """
     Get an async database session
 
     To be used for dependency injection
     """
-    async with async_session() as session:
+    async with async_session() as session, session.begin():
         yield session
 
 
