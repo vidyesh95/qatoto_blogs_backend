@@ -143,5 +143,5 @@ async def init_models() -> None:
     """
     async with async_engine.begin() as conn:
         # Uncomment below to drop all tables before recreating (DANGEROUS!)
-        # await conn.run_sync(Base.metadata.drop_all)  # noqa: ERA001
+        # await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)

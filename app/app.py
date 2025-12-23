@@ -1,12 +1,13 @@
 """
 This file mainly contains routes.
 """
-
+from contextlib import asynccontextmanager
 from enum import Enum
-from typing import Annotated
+from typing import Annotated, AsyncGenerator, Any
 
 from fastapi import FastAPI, HTTPException, status
 
+from app.db import init_models
 from app.schemas import Blog, BlogCreate, BlogResponse, BlogsResponse, BlogTable
 
 project_description = """
@@ -15,11 +16,18 @@ Qatoto Blogs API
 Qatoto Blogs is a simple API for managing blogs.
 """
 
+@asynccontextmanager
+async def lifespan(app:FastAPI) -> AsyncGenerator[Any, None]:
+    """Run tasks before and after the server starts"""
+    await init_models()
+    yield
+
 app = FastAPI(
     title="Qatoto Blogs",
     description=project_description,
     summary="Qatoto Blogs API",
     version="0.0.1",
+    lifespan=lifespan
 )
 
 
