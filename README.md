@@ -28,3 +28,12 @@ or
 
 uv run main.py 
 ```
+
+### Docker
+
+To start the PostgreSQL in Docker
+```shell
+
+docker compose up -d
+```
+
