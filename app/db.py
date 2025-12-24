@@ -27,8 +27,8 @@ from sqlalchemy.orm import DeclarativeBase
 #
 # Note: In production, you should use environment variables to store
 # sensitive credentials like user/password and database name.
-DATABASE_URL = "postgresql+asyncpg://postgres:postgres@localhost:5432/postgres"
-# DATABASE_URL = "sqlite+aiosqlite:///./test.db"  # SQLite alternative for testing  # noqa: ERA001
+# DATABASE_URL = "postgresql+asyncpg://postgres:postgres@localhost:5432/postgres"
+DATABASE_URL = "sqlite+aiosqlite:///./test.db"  # SQLite alternative for testing  # noqa: ERA001
 
 
 # =============================================================================
