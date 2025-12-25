@@ -21,6 +21,7 @@ uv sync
 uv run fastapi dev
 uv build
 uv sync --upgrade
+
 uv lock --upgrade
 uv sync
 ```
