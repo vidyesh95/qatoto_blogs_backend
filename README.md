@@ -6,13 +6,21 @@ uv add fastapi --extra standard
 uv add pwdlib --extra argon2
 uv add pyjwt --extra crypto
 uv add python-dotenv
-uv add sqlmodel
-uv add imagekitio
+uv add sqlalchemy --extra asyncio
+uv add aiosqlite
+uv add asyncpg
+uv add alembic
+uv add --dev ruff
+uvx pyrefly init
+
+uvx pyrefly check --summarize-errors
 uv remove
 uv lock
 uv sync
+
 uv run fastapi dev
 uv build
+uv sync --upgrade
 uv lock --upgrade
 uv sync
 ```
