@@ -24,6 +24,9 @@ uv sync --upgrade
 
 uv lock --upgrade
 uv sync
+
+uvx ruff check
+uvx ruff format
 ```
 
 ### Run with
