@@ -32,7 +32,7 @@ uvx ruff format
 ### Run with
 ```shell
 
-uv run fastapi dev app/app.py 
+uv run fastapi dev 
 ```
 
 or
