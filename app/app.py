@@ -129,6 +129,7 @@ async def create_blog(
 
     Args:
         blog (BlogCreate): The blog data to create
+        session (AsyncSession): The async database session dependency
 
     Returns:
         BlogSchema: The created blog with its assigned id
@@ -208,10 +209,11 @@ async def partial_update_blog(
     Partially update a blog - only updates the fields you provide.
 
     Args:
-        blog_id: The ID of the blog to update
-        title: New title (optional)
-        description: New description (optional)
-        content: New content (optional)
+        blog_id (int): The ID of the blog to update
+        session (AsyncSession): The async database session dependency
+        title (str | None): New title (optional)
+        description (str | None): New description (optional)
+        content (str | None): New content (optional)
 
     Returns:
         BlogSchema: The updated blog
@@ -264,7 +266,8 @@ async def delete_blog(
     Delete a blog by id.
 
     Args:
-        blog_id: The ID of the blog to delete
+        blog_id (int): The ID of the blog to delete
+        session (AsyncSession): The async database session dependency
     """
     result = await session.execute(select(Blog).where(Blog.id == blog_id))
     existing_blog = result.scalar_one_or_none()
