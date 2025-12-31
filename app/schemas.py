@@ -14,7 +14,7 @@ Pydantic models are used by FastAPI to:
 
 from typing import TypedDict
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 # =============================================================================
@@ -45,10 +45,9 @@ class BlogSchema(BaseModel):
     description: str
     content: str
 
-    class Config:
-        """Pydantic configuration for BlogSchema."""
-
-        from_attributes = True  # Allows creating from SQLAlchemy model instances
+    model_config = ConfigDict(
+        from_attributes=True,  # Allows creating from SQLAlchemy model instances
+    )
 
 
 # =============================================================================
@@ -120,10 +119,7 @@ class BlogResponse(BaseModel):
     title: str
     content: str
 
-    class Config:
-        """Pydantic configuration for BlogResponse."""
-
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # =============================================================================
@@ -155,10 +151,7 @@ class BlogsResponse(BaseModel):
     title: str
     description: str
 
-    class Config:
-        """Pydantic configuration for BlogsResponse."""
-
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 # =============================================================================
