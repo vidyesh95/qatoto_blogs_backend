@@ -24,7 +24,7 @@ Qatoto Blogs is a simple API for managing blogs.
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncGenerator[Any, None]:
+async def lifespan(_fastapi_app: FastAPI) -> AsyncGenerator[Any, None]:
     """Run tasks before and after the server starts"""
     await init_models()
     yield
