@@ -46,6 +46,8 @@ class BlogSchema(BaseModel):
     content: str
 
     class Config:
+        """Pydantic configuration for BlogSchema."""
+
         from_attributes = True  # Allows creating from SQLAlchemy model instances
 
 
@@ -119,6 +121,8 @@ class BlogResponse(BaseModel):
     content: str
 
     class Config:
+        """Pydantic configuration for BlogResponse."""
+
         from_attributes = True
 
 
@@ -152,6 +156,8 @@ class BlogsResponse(BaseModel):
     description: str
 
     class Config:
+        """Pydantic configuration for BlogsResponse."""
+
         from_attributes = True
 
 
