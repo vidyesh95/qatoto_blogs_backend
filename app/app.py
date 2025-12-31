@@ -16,7 +16,7 @@ from app.db import get_async_db_session, init_models
 from app.models import Blog
 from app.schemas import BlogCreate, BlogSchema, BlogResponse, BlogsResponse
 
-project_description = """
+PROJECT_DESCRIPTION = """
 Qatoto Blogs API
 
 Qatoto Blogs is a simple API for managing blogs.
@@ -32,7 +32,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[Any, None]:
 
 app = FastAPI(
     title="Qatoto Blogs",
-    description=project_description,
+    description=PROJECT_DESCRIPTION,
     summary="Qatoto Blogs API",
     version="0.0.1",
     lifespan=lifespan,
