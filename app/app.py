@@ -40,8 +40,10 @@ app = FastAPI(
 
 
 class Tags(Enum):
-    blogs = "blogs"
-    auth = "auth"
+    """API tags for grouping documentation"""
+
+    BLOGS = "blogs"
+    AUTH = "auth"
 
 
 # =============================================================================
@@ -52,7 +54,7 @@ class Tags(Enum):
 @app.get(
     "/",
     response_model=list[BlogsResponse],
-    tags=[Tags.blogs],
+    tags=[Tags.BLOGS],
     summary="Read all blogs",
     description="Read all blogs",
     response_description="List of all blogs",
@@ -79,7 +81,7 @@ async def get_blogs(
 @app.get(
     "/blog/{blog_id}",
     response_model=BlogResponse,
-    tags=[Tags.blogs],
+    tags=[Tags.BLOGS],
     summary="Read a blog",
     description="Read a blog by id",
     response_description="The blog with the given id",
@@ -116,7 +118,7 @@ async def get_blog(
     "/create-blog",
     response_model=BlogSchema,
     status_code=status.HTTP_201_CREATED,
-    tags=[Tags.blogs],
+    tags=[Tags.BLOGS],
     summary="Create a new blog",
     description="Create a new blog entry",
 )
@@ -154,7 +156,7 @@ async def create_blog(
     "/update-blog/{blog_id}",
     response_model=BlogSchema,
     status_code=status.HTTP_200_OK,
-    tags=[Tags.blogs],
+    tags=[Tags.BLOGS],
     summary="Update a blog",
     description="Update a blog by replacing all its fields",
 )
@@ -194,7 +196,7 @@ async def update_blog(
     "/update-blog/{blog_id}",
     response_model=BlogSchema,
     status_code=status.HTTP_200_OK,
-    tags=[Tags.blogs],
+    tags=[Tags.BLOGS],
     summary="Partially update a blog",
     description="Partially update a blog - only updates the fields you provide",
 )
@@ -254,7 +256,7 @@ async def partial_update_blog(
 @app.delete(
     "/delete-blog/{blog_id}",
     status_code=status.HTTP_204_NO_CONTENT,
-    tags=[Tags.blogs],
+    tags=[Tags.BLOGS],
     summary="Delete a blog",
     description="Delete a blog by id",
 )
