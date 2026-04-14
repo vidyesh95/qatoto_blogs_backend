@@ -5,7 +5,7 @@ services:
     container_name: qatoto_postgres
     restart: unless-stopped
     volumes:
-      - ./var/db:/var/lib/postgresql
+      - ./var/db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
       POSTGRES_DB: ${PG_DB:-postgres}
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${PG_USER:-postgres}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -28,8 +28,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      PG_HOST: ${PG_HOST:-postgres}
-      PG_PORT: ${PG_PORT:-5432}
+      PG_HOST: postgres
+      PG_PORT: 5432
       PG_USER: ${PG_USER:-postgres}
       PG_PASSWORD: ${PG_PASSWORD:-postgres}
       PG_DB: ${PG_DB:-postgres}
