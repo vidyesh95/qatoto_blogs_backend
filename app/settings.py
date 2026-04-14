@@ -115,6 +115,7 @@ PG_DB = get_env_var("PG_DB")
 SQLALCHEMY_DATABASE_URL = (
     f"postgresql+asyncpg://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DB}"
 )
+# SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///./test.db"  # SQLite alternative for testing
 
 # =============================================================================
 # SQLAlchemy Configuration

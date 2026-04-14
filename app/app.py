@@ -280,3 +280,19 @@ async def delete_blog(
         )
 
     await session.delete(existing_blog)
+
+
+@app.get(
+    "/health",
+    status_code=status.HTTP_200_OK,
+    summary="Health check",
+    description="Returns OK if the API is running.",
+)
+async def health_check() -> dict[str, str]:
+    """
+    Health check endpoint for Docker.
+    
+    Returns:
+        dict: Status message
+    """
+    return {"status": "ok"}

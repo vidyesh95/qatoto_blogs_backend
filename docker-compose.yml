@@ -5,7 +5,7 @@ services:
     container_name: qatoto_postgres
     restart: unless-stopped
     volumes:
-      - ./var/db:/var/lib/postgresql/data
+      - ./var/db:/var/lib/postgresql
     ports:
       - "5432:5432"
     environment:
@@ -26,8 +26,14 @@ services:
     container_name: qatoto_api
     restart: unless-stopped
     ports:
-      - "8001:8000"
+      - "8000:8000"
     environment:
+      PG_HOST: postgres
+      PG_PORT: 5432
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+      PG_DB: postgres
+      # Also keep DATABASE_URL just in case anything else tries to use it directly
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/postgres
     depends_on:
       postgres:
@@ -38,7 +44,7 @@ services:
           "CMD",
           "python",
           "-c",
-          "import urllib.request; urllib.request.urlopen('http://localhost:8000/')",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')",
         ]
       interval: 30s
       timeout: 10s

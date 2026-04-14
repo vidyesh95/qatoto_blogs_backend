@@ -46,6 +46,6 @@ uv run main.py
 To start the PostgreSQL in Docker
 ```shell
 
-docker compose up -d
+docker compose up
 ```
 
